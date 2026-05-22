@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>I.M.T App - Fisoratana</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d47a1">
+
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+
+<style>
+
+*{box-sizing:border-box;}
+
+body{
+  font-family:Arial;
+  background:#eef2f7;
+  display:flex;
+  justify-content:center;
+  padding:20px;
+  margin:0;
+  min-height:100vh;
+}
+
+body.dark{background:#121212;}
+
+.card{
+  background:white;
+  padding:20px;
+  width:380px;
+  border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+body.dark .card{
+  background:#1e1e1e;
+  color:white;
+}
+
+h2{
+  text-align:center;
+  color:#0d47a1;
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+body.dark input,
+body.dark select{
+  background:#2a2a2a;
+  color:white;
+  border:1px solid #444;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  background:#0d47a1;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+button:hover{background:#08306b;}
+
+.modeBtn{background:#333;}
+.retourBtn{background:#555;}
+.retourBtn:hover{background:#333;}
+
+small{
+  display:block;
+  margin-top:10px;
+  text-align:center;
+  color:#777;
+}
+
+body.dark small{color:#aaa;}
+
+@media(max-width:480px){
+  .card{width:100%;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>I.M.T - FISORATANA ANARANA</h2>
+
+<button class="modeBtn" onclick="toggleMode()">🌙 / ☀ Mode</button>
+
+<button class="retourBtn" onclick="window.location.href='index.html'">
+⬅ Hiverina
+</button>
+
+<!-- 📝 FORMULAIRE (DIRECTEMENT MISEHO) -->
+
+<input id="nom" placeholder="Anarana sy Fanampiny">
+<input id="origine" placeholder="Tany niaviana">
+<input id="fonenana" placeholder="Fonenana">
+<input id="telephone" placeholder="Laharan'ny finday">
+
+<select id="categorie">
+  <option value="" disabled selected>-- Sokajin'ny mpikambana --</option>
+  <option value="Mahaleo tena">Mahaleo tena</option>
+  <option value="Tsy mahaleo tena">Tsy mahaleo tena</option>
+  <option value="Mpianatra">Mpianatra</option>
+</select>
+
+<select id="asa">
+  <option value="" disabled selected>-- Asa atao --</option>
+  <option value="Mpivarotra">Mpivarotra</option>
+  <option value="Mpitsabo">Mpitsabo</option>
+  <option value="Mpiompy">Mpiompy</option>
+  <option value="Mpamboly">Mpamboly</option>
+  <option value="Mpamily">Mpamily</option>
+  <option value="Mpiasa birao">Mpiasa birao</option>
+  <option value="Mpianatra">Mpianatra</option>
+  <option value="Mpampianatra">Mpampianatra</option>
+</select>
+
+<button onclick="envoyer()">Alefa</button>
+
+<button onclick="window.location.href='dashboard.html'">
+➡ Kitiho eto raha hanohy
+</button>
+
+<small>Fenoy tsara ny angona alohan’ny handefasana.</small>
+
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBzxmeM4xeKZ8S897l-troTlhyb9LAG-4A",
+  authDomain: "enquete-app-afa39.firebaseapp.com",
+  projectId: "enquete-app-afa39",
+  storageBucket: "enquete-app-afa39.firebasestorage.app",
+  messagingSenderId: "9596134822",
+  appId: "1:9596134822:web:5e39a1ff2910a8da685b67"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/* MODE */
+function toggleMode(){
+  document.body.classList.toggle("dark");
+}
+
+/* ENVOYER */
+function envoyer(){
+
+  const nom = document.getElementById("nom");
+  const origine = document.getElementById("origine");
+  const fonenana = document.getElementById("fonenana");
+  const telephone = document.getElementById("telephone");
+  const categorie = document.getElementById("categorie");
+  const asa = document.getElementById("asa");
+
+  if(!nom.value || !origine.value || !fonenana.value || !telephone.value){
+    alert("Fenoy tsara ny saha rehetra!");
+    return;
+  }
+
+  db.collection("membres").add({
+    nom: nom.value,
+    origine: origine.value,
+    fonenana: fonenana.value,
+    telephone: telephone.value,
+    categorie: categorie.value || "",
+    asa: asa.value || "",
+    date: new Date()
+  })
+  .then(()=>{
+
+    alert("✅ Vita tsara!");
+
+    nom.value = "";
+    origine.value = "";
+    fonenana.value = "";
+    telephone.value = "";
+
+    categorie.selectedIndex = 0;
+    asa.selectedIndex = 0;
+
+  });
+
+}
+
+/* SERVICE WORKER */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js');
+  });
+}
+
+</script>
+
+</body>
+</html>

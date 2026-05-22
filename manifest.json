@@ -1,0 +1,27 @@
+{
+  "name": "I.M.T-App",
+  "short_name": "IMT",
+  "description": "Application Enquivo I.M.T : Fisoratana anarana en ligne ho an'ny fikambanana Imady Miray Toliara",
+
+  "start_url": "/",
+  "scope": "/",
+
+  "display": "standalone",
+  "orientation": "portrait-primary",
+
+  "background_color": "#ffffff",
+  "theme_color": "#0d47a1",
+
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

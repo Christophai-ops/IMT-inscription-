@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard I.M.T</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d47a1">
+
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+
+<style>
+
+/* ===== RESET ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f5f5;
+  height:100vh;
+  overflow:hidden;
+}
+
+body.dark{
+  background:#121212;
+  color:white;
+}
+
+/* ===== HEADER ===== */
+.header{
+  background:white;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  border-bottom:1px solid #ddd;
+}
+
+body.dark .header{
+  background:#1e1e1e;
+  border-bottom:1px solid #333;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+h2{
+  color:#0d47a1;
+}
+
+body.dark h2{
+  color:#90caf9;
+}
+
+/* ===== BUTTONS ===== */
+.btn-group{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+button{
+  border:none;
+  border-radius:7px;
+  padding:8px 10px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+
+button:hover{
+  transform:scale(1.05);
+  opacity:.9;
+}
+
+/* COLORS */
+.retour-btn{
+  background:#2e7d32;
+  color:white;
+}
+
+.continue-btn{
+  background:#7b1fa2;
+  color:white;
+}
+
+.light-btn{
+  background:#fdd835;
+  color:#000;
+}
+
+.dark-btn{
+  background:#0d47a1;
+  color:white;
+}
+
+/* ===== STATS ===== */
+.stats{
+  font-weight:bold;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+/* MODE CLAIR */
+body:not(.dark) .stats span,
+body:not(.dark) .stats b{
+  color:#111;
+}
+
+/* MODE SOMBRE */
+body.dark .stats span,
+body.dark .stats b{
+  color:#ffeb3b;
+  font-weight:bold;
+}
+
+/* ===== SEARCH ===== */
+.search-zone{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+input,select{
+  height:38px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  padding:0 10px;
+}
+
+/* ===== MAIN ===== */
+.main{
+  height:calc(100vh - 190px);
+  overflow:hidden;
+  padding:8px;
+}
+
+/* ===== TABLE WRAPPER ===== */
+.table-wrapper{
+  height:100%;
+  overflow-x:auto;
+  overflow-y:auto;
+  background:white;
+  border-radius:10px;
+  -webkit-overflow-scrolling:touch;
+}
+
+body.dark .table-wrapper{
+  background:#1e1e1e;
+}
+
+/* ===== TABLE ===== */
+table{
+  border-collapse:collapse;
+
+  /* responsive + scroll horizontal */
+  width:max-content;
+
+  /* compact professionnel */
+  min-width:1220px;
+}
+
+/* ===== HEADER FIXE ===== */
+thead th{
+  position:sticky;
+  top:0;
+  background:#0d47a1;
+  color:white;
+  padding:7px 8px;
+  z-index:10;
+  white-space:nowrap;
+  font-size:14px;
+}
+
+/* ===== CELLS ===== */
+td{
+  border:1px solid #ddd;
+  padding:6px 8px;
+
+  white-space:nowrap;
+  overflow:visible;
+  text-overflow:unset;
+
+  font-size:14px;
+}
+
+body.dark td{
+  background:#1e1e1e;
+  color:white;
+}
+
+/* ================================================= */
+/* ===== COLUMN WIDTHS RESPONSIVE + EQUILIBRE ===== */
+/* ================================================= */
+
+/* ===== LAH ===== */
+/* TSY OVANA */
+th:nth-child(1),
+td:nth-child(1){
+  width:45px;
+  min-width:45px;
+  text-align:center;
+}
+
+/* ===== ANARANA ===== */
+/* TSY OVANA */
+th:nth-child(2),
+td:nth-child(2){
+  width:430px;
+  min-width:430px;
+}
+
+/* ===== TANY NIAVIANA ===== */
+th:nth-child(3),
+td:nth-child(3){
+  width:145px;
+  min-width:145px;
+}
+
+/* ===== FONENANA ===== */
+th:nth-child(4),
+td:nth-child(4){
+  width:145px;
+  min-width:145px;
+}
+
+/* ===== SOKAJY ===== */
+th:nth-child(5),
+td:nth-child(5){
+  width:150px;
+  min-width:150px;
+}
+
+/* ===== ASA ===== */
+th:nth-child(6),
+td:nth-child(6){
+  width:120px;
+  min-width:120px;
+}
+
+/* ===== FINDAY ===== */
+th:nth-child(7),
+td:nth-child(7){
+  width:110px;
+  min-width:110px;
+}
+
+/* ===== DATY ===== */
+th:nth-child(8),
+td:nth-child(8){
+  width:165px;
+  min-width:165px;
+}
+
+/* ===== ACTION ===== */
+th:nth-child(9),
+td:nth-child(9){
+  width:105px;
+  min-width:105px;
+  text-align:center;
+}
+
+/* ===== NAME STACK ===== */
+td.name-cell{
+  vertical-align:top;
+}
+
+td.name-cell .name-stack{
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===== ASEHO MANONTOLO NY ANARANA ===== */
+td.name-cell .nom,
+td.name-cell .prenom{
+  white-space:nowrap !important;
+  overflow:visible !important;
+  text-overflow:unset !important;
+}
+
+td.name-cell .nom{
+  font-weight:bold;
+}
+
+/* ===== ACTION FIXE ===== */
+th:nth-child(9){
+  position:sticky;
+  right:0;
+  background:#0d47a1;
+  z-index:100;
+  box-shadow:-2px 0 5px rgba(0,0,0,0.15);
+}
+
+td:nth-child(9){
+  position:sticky;
+  right:0;
+  background:white;
+  z-index:50;
+  box-shadow:-2px 0 5px rgba(0,0,0,0.08);
+}
+
+body.dark td:nth-child(9){
+  background:#1e1e1e;
+}
+
+/* ===== BUTTON DELETE ===== */
+.del-btn{
+  background:#d32f2f;
+  color:white;
+  border:none;
+  border-radius:6px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.del-btn:hover{
+  background:#b71c1c;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+  <div class="top">
+
+    <h2>📊 ENQUIVO I.M.T</h2>
+
+    <div class="btn-group">
+
+      <button class="retour-btn"
+      onclick="location.href='inscription.html'">
+        Miverina
+      </button>
+
+      <button class="continue-btn"
+      onclick="location.href='rapport.html'">
+        Manohy
+      </button>
+
+      <button class="light-btn"
+      onclick="document.body.classList.remove('dark')">
+        Mazava
+      </button>
+
+      <button class="dark-btn"
+      onclick="document.body.classList.add('dark')">
+        Maizina
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="stats">
+
+    <div>
+      Isan'ny mpikambana :
+      <span id="count">0</span>
+    </div>
+
+    <div>
+      Mahaleo tena <b id="countMahaleo">0</b> |
+      Tsy mahaleo tena <b id="countTsy">0</b> |
+      Mpianatra <b id="countMpianatra">0</b>
+    </div>
+
+  </div>
+
+  <div class="search-zone">
+
+    <input
+      id="searchInput"
+      placeholder="🔍 Recherche..."
+      oninput="applyFilters()"
+    >
+
+    <select
+      id="filterCategorie"
+      onchange="applyFilters()"
+    >
+      <option value="">Sokajy rehetra</option>
+      <option value="Mahaleo tena">Mahaleo tena</option>
+      <option value="Tsy mahaleo tena">Tsy mahaleo tena</option>
+      <option value="Mpianatra">Mpianatra</option>
+    </select>
+
+  </div>
+
+</div>
+
+<div class="main">
+
+  <div class="table-wrapper">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>LAH</th>
+          <th>ANARANA SY FANAMPINY</th>
+          <th>TANY NIAVIANA</th>
+          <th>FONENANA</th>
+          <th>SOKAJY</th>
+          <th>ASA</th>
+          <th>FINDAY</th>
+          <th>DATY SY ORA</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+
+      <tbody id="tb"></tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+<script>
+
+const firebaseConfig={
+  apiKey:"AIzaSyB...",
+  authDomain:"enquete-app-afa39.firebaseapp.com",
+  projectId:"enquete-app-afa39"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db=firebase.firestore();
+
+let allData=[];
+let filteredData=[];
+
+/* ===== REALTIME + TRI A-Z AUTOMATIQUE ===== */
+db.collection("membres")
+.onSnapshot(snap=>{
+
+  allData=[];
+
+  document.getElementById("count").innerText=snap.size;
+
+  let mah=0;
+  let tsy=0;
+  let mp=0;
+
+  snap.forEach(doc=>{
+
+    let d=doc.data();
+
+    allData.push({
+      id:doc.id,
+      data:d
+    });
+
+    let c=(d.categorie || "").toLowerCase();
+
+    if(c==="mahaleo tena"){
+      mah++;
+    }
+    else if(c==="tsy mahaleo tena"){
+      tsy++;
+    }
+    else if(c==="mpianatra"){
+      mp++;
+    }
+
+  });
+
+  /* ===== TRI ALPHABETIQUE A-Z ===== */
+  allData.sort((a,b)=>{
+
+    let nomA=(a.data.nom || "").toLowerCase();
+    let nomB=(b.data.nom || "").toLowerCase();
+
+    return nomA.localeCompare(nomB);
+
+  });
+
+  document.getElementById("countMahaleo").innerText=mah;
+  document.getElementById("countTsy").innerText=tsy;
+  document.getElementById("countMpianatra").innerText=mp;
+
+  applyFilters();
+
+});
+
+/* ===== FILTER ===== */
+function applyFilters(){
+
+  let key=document.getElementById("searchInput")
+  .value
+  .toLowerCase();
+
+  let cat=document.getElementById("filterCategorie").value;
+
+  filteredData=allData.filter(i=>{
+
+    let n=(i.data.nom || "").toLowerCase();
+
+    return n.includes(key)
+    && (!cat || i.data.categorie===cat);
+
+  });
+
+  render();
+
+}
+
+/* ===== RENDER ===== */
+function render(){
+
+  let source=
+    filteredData.length || document.getElementById("searchInput").value || document.getElementById("filterCategorie").value
+    ? filteredData
+    : allData;
+
+  let tb=document.getElementById("tb");
+
+  let html="";
+
+  let n=1;
+
+  source.forEach(i=>{
+
+    let d=i.data;
+
+    let dt="";
+
+    if(d.date){
+
+      dt=new Date(
+        d.date.seconds*1000
+      ).toLocaleString();
+
+    }
+
+    html+=`
+
+<tr>
+
+<td>${String(n++).padStart(2,'0')}</td>
+
+<td class="name-cell">
+  <div class="name-stack">
+
+    <div class="nom">
+      ${d.nom || ""}
+    </div>
+
+    <div class="prenom">
+      ${d.prenom || ""}
+    </div>
+
+  </div>
+</td>
+
+<td>${d.origine || ""}</td>
+
+<td>${d.fonenana || ""}</td>
+
+<td>${d.categorie || ""}</td>
+
+<td>${d.asa || ""}</td>
+
+<td>${d.telephone || ""}</td>
+
+<td>${dt}</td>
+
+<td>
+  <button
+    class="del-btn"
+    onclick="supprimer('${i.id}')"
+  >
+    Supprimer
+  </button>
+</td>
+
+</tr>
+
+`;
+
+  });
+
+  tb.innerHTML=html;
+
+}
+
+/* ===== DELETE ===== */
+function supprimer(id){
+
+  if(confirm("Hofafana ve ?")){
+
+    db.collection("membres")
+    .doc(id)
+    .delete();
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
